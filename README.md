@@ -1,7 +1,7 @@
 ## FastAPI + Reflex.
 
 This is an experiment to attempt to use Reflex as the frontend framework for a FastAPI app.
-THis may be useful for if you already have a FastAPI application and want to use some frontend a JS framework for parts of your as the frontend.
+This may be useful for if you already have a FastAPI application and want to use a JS framework for parts of your as the frontend.
 
 The frontend application is a simple app to manage customer data. It is based in the [customer_data](https://cijob.reflex.run/) example from the Reflex repo. I have moved the database functionality from the reflex app to FastAPI.
 
