@@ -1,0 +1,5 @@
+reflex
+fastapi
+jinja2
+uvicorn
+aiohttp
