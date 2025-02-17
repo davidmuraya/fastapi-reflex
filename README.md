@@ -1,4 +1,7 @@
-## FastAPI + Reflex as the frontend framework.
+## FastAPI + Reflex.
+
+This is an experiment to attempt to use Reflex as the frontend framework for a FastAPI app.
+THis may be useful for if you already have a FastAPI application and want to use some frontend a JS framework for parts of your as the frontend.
 
 ## How to run the app:
 
@@ -13,30 +16,6 @@ pip install -r requirements.txt
 2. Navigate to the app/frontend/customer_app directory:
 
 
-First, create migration scripts based on the `rx.Model` definitions and update
-the default sqlite database with that schema. This only needs to be done once
-when a new app is created.
-
-```bash
-reflex db init
-```
-
-# Applying Database Schema Changes
-
-If changes are made to the database models after initialization, they can be
-applied by running the following commands:
-
-```bash
-reflex db makemigrations --message "Brief description of the change"
-```
-
-```bash
-reflex db migrate
-```
-
-
-This will create a new Reflex app in the app/frontend directory.
-
 3. To run the reflex app, navigate to the app/frontend directory and run the following command:
 
 ```bash
@@ -44,7 +23,7 @@ reflex run
 ```
 
 This will start the Reflex app. The frontend app will be available at http://localhost:3000.
-The backend app will be start in http://localhost:8000. The backend is used to serve the state of the Reflex app.
+The reflex backend app will be start in http://localhost:8000. This backend is used to serve the state of the Reflex app.
 
 Default rxconfig.py file:
 
