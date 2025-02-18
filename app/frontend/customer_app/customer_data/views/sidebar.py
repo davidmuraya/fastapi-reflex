@@ -4,8 +4,11 @@ Sidebar view for the customer data app.
 
 import reflex as rx
 
+from ..state.base import State
+
 
 def sidebar_item(text: str, icon: str, href: str) -> rx.Component:
+    """Navigation Links"""
     return rx.link(
         rx.hstack(
             rx.icon(icon),
@@ -26,6 +29,32 @@ def sidebar_item(text: str, icon: str, href: str) -> rx.Component:
         underline="none",
         weight="medium",
         width="100%",
+    )
+
+
+def sidebar_button(text: str, icon: str, on_click=rx.EventHandler) -> rx.Component:
+    """Navigation buttons that look like links"""
+    return rx.button(
+        rx.hstack(
+            rx.icon(icon),
+            rx.text(text, size="3", weight="medium"),
+            width="100%",
+            padding_x="0.5rem",
+            padding_y="0.75rem",
+            align="center",
+            style={
+                "_hover": {
+                    "bg": rx.color("accent", 4),
+                    "color": rx.color("accent", 11),
+                },
+                "border-radius": "0.5em",
+            },
+        ),
+        on_click=on_click,
+        underline="none",
+        weight="medium",
+        width="100%",
+        variant="ghost",
     )
 
 
@@ -66,7 +95,7 @@ def sidebar() -> rx.Component:
                 rx.vstack(
                     rx.vstack(
                         sidebar_item("Settings", "settings", "/#"),
-                        sidebar_item("Log out", "log-out", "/#"),
+                        sidebar_button("Logout", "log-out", on_click=State.logout),
                         spacing="1",
                         width="100%",
                     ),
@@ -80,12 +109,12 @@ def sidebar() -> rx.Component:
                         rx.vstack(
                             rx.box(
                                 rx.text(
-                                    "My account",
+                                    State.user.name,
                                     size="3",
                                     weight="bold",
                                 ),
                                 rx.text(
-                                    "user@reflex.dev",
+                                    State.user.email,
                                     size="2",
                                     weight="medium",
                                 ),
@@ -155,12 +184,12 @@ def sidebar() -> rx.Component:
                                     rx.vstack(
                                         rx.box(
                                             rx.text(
-                                                "My account",
+                                                State.user.name,
                                                 size="3",
                                                 weight="bold",
                                             ),
                                             rx.text(
-                                                "user@reflex.dev",
+                                                State.user.email,
                                                 size="2",
                                                 weight="medium",
                                             ),
