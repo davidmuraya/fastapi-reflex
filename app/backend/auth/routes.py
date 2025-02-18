@@ -1,8 +1,6 @@
-from enum import Enum
-from typing import List, Optional
-
-from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Field, Session, SQLModel, String, asc, cast, desc, or_, select
+from fastapi import APIRouter, Depends, HTTPException, status
+from pydantic import BaseModel
+from sqlmodel import Field, Session, SQLModel, select
 
 from app.backend.database.utils import get_session
 
@@ -17,14 +15,50 @@ class User(SQLModel, table=True):
     password: str
 
 
-@router.get("/users/{email}", response_model=User)
-def get_user(email: str, session: Session = Depends(get_session)):
+class UserLoginRequest(BaseModel):
+    email: str
+    password: str
+
+
+class UserLoginResponse(BaseModel):
+    id: int
+    name: str
+    email: str
+
+
+@router.post("/auth/login", response_model=UserLoginResponse)
+def login_user(login_data: UserLoginRequest, session: Session = Depends(get_session)):
     """
     This is just an example of how to retrieve a user from the database.
-    In a real application, you would want to implement some kind of authentication
-    and authorization mechanism to ensure that only authorized users can access certain resources.
+
     """
-    user = session.get(User, email)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
-    return user
+
+    # exception:
+    user_not_found_exception = HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="User not found. Please check the spelling.",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    invalid_credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Invalid username or password.",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    # Get the user from the database
+    db_user = session.exec(select(User).where(User.email == login_data.email)).first()
+
+    # If the user doesn't exist, raise an exception
+    if not db_user:
+        raise user_not_found_exception
+
+    # You likely need to hash and verify the password instead of comparing it directly
+    if not db_user.password == login_data.password:
+        raise invalid_credentials_exception
+
+    # Return the user data
+    user_data_response = UserLoginResponse(
+        id=db_user.id, name=db_user.name, email=db_user.email
+    )
+    return user_data_response
