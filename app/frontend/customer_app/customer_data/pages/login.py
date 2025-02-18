@@ -1,50 +1,14 @@
-import re
+"""
+Login Page
+"""
 
 import reflex as rx
 
-from ..components.form_field import form_field
+from ..components.input import input
+from ..state.auth import AuthState
 from ..views.navbar import navbar
 
-
-def is_email(email: str) -> bool:
-    return re.match(r"[^@]+@[^@]+\.[^@]+", email)
-
-
-class LoginPageState(rx.State):
-    """State for the login page."""
-
-    form_data: dict = {}
-    email: str
-    password: str
-    otp: str
-
-    @rx.var(cache=True)
-    def invalid_email(self) -> bool:
-        email = self.email.strip()
-        if email:
-            return not re.match(r"[^@]+@[^@]+\.[^@]+", email)
-        return False
-
-    @rx.event
-    def submit(self, form_data: dict):
-        """Handle the form submit."""
-        self.form_data = form_data
-
-        # If email is empty, return an error toast.
-        if not self.email.strip():
-            return rx.toast.error("Email cannot be empty", close_button=True)
-
-        # If password is empty, return an error toast.
-        if not self.password.strip():
-            return rx.toast.error("Password cannot be empty", close_button=True)
-
-        # If OTP is empty, return an error toast.
-        if not self.otp.strip():
-            return rx.toast.error("OTP cannot be empty", close_button=True)
-
-        return rx.toast.success(
-            f"Login successful!, {self.email=}, {self.password=}", close_button=True
-        )
+BASE_URL = "http://localhost:5000/api"
 
 
 def login_form() -> rx.Component:
@@ -77,37 +41,41 @@ def login_form() -> rx.Component:
                         align_items="center",
                         width="100%",
                     ),
-                    form_field(
+                    input(
                         label="Email address",
                         icon="user",
                         placeholder="Email address",
                         type="email",
                         name="email",
+                        on_blur=AuthState.set_email,
                     ),
-                    # Conditionally render the error message if the email is invalid.
-                    rx.cond(
-                        LoginPageState.invalid_email,
-                        rx.text(
-                            "Invalid email address!",
-                            size="2",
-                            color="red",
-                        ),
-                    ),
-                    form_field(
+                    input(
                         label="Password",
                         icon="lock",
                         placeholder="Password",
                         type="password",
                         name="password",
+                        on_blur=AuthState.set_password,
                     ),
-                    form_field(
+                    input(
                         label="OTP",
                         icon="key-round",
                         placeholder="OTP",
                         type="text",
                         name="otp",
+                        on_blur=AuthState.set_otp,
                     ),
                     rx.button("Sign in", size="3", width="100%", type="submit"),
+                    # Conditionally render the error messages if the email is invalid.
+                    rx.cond(
+                        AuthState.invalid_email,
+                        rx.callout(
+                            "Invalid email address!",
+                            icon="info",
+                            color_scheme="red",
+                            width="100%",
+                        ),
+                    ),
                     rx.center(
                         rx.text("New here?", size="3"),
                         rx.link("Sign up", href="#", size="3"),
@@ -128,13 +96,13 @@ def login_form() -> rx.Component:
                 max_width="40em",
                 margin_x="1em",
             ),
-            on_submit=LoginPageState.submit,
+            on_submit=AuthState.login,
             reset_on_submit=False,
         ),
     )
 
 
-@rx.page(route="/login", title="Login", description="Login page")
+@rx.page(route="/", title="Login", description="Login page")
 def login_page() -> rx.Component:
     return rx.box(
         navbar(),
