@@ -1,4 +1,6 @@
-# import os
+"""
+rxconfig.py contains the configuration for Reflex.
+"""
 
 import reflex as rx
 
