@@ -76,3 +76,6 @@ This is what the fastapi app is serving.
 ```bash
  reflex run --backend-only
 ```
+
+### Reflex Command Line Interface
+To learn more about Reflex CLI, visit the [Reflex CLI](https://reflex.dev/docs/api-reference/cli/) page.
