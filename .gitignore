@@ -1,6 +1,6 @@
 
 # Reflex
-*.db
+
 .web/
 .states/
 *.py[cod]
