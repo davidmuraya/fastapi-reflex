@@ -1,6 +1,6 @@
 ## FastAPI + Reflex.
 
-This is an experiment to attempt to use Reflex as the frontend framework for a FastAPI app.
+This is an experiment to attempt to use Reflex to develop a frontend application for a FastAPI app.
 This may be useful for if you already have a FastAPI application and want to use a JS framework for parts of your as the frontend.
 
 The frontend application is a simple app to manage customer data. It is based in the [customer_data](https://cijob.reflex.run/) example from the Reflex repo. I have moved the database functionality from the reflex app to FastAPI.
@@ -31,23 +31,25 @@ Default rxconfig.py file:
 
 ```python
 
+
 import reflex as rx
 
-origins = [
+prod_origins = [
     "http://localhost",
     "http://127.0.0.1",
-    "http://localhost:5000",
-    "http://127.0.0.1:5000",
 ]
+
+dev_origins = ["*"]
 
 
 config = rx.Config(
-    app_name="frontend",
+    app_name="customer_data",
     show_built_with_reflex=False,
-    cors_allowed_origins=origins,
+    cors_allowed_origins=dev_origins,
     backend_port=8000,
     frontend_port=3000,
 )
+
 ```
 
 4. To start the fastapi backend app, navigate to the app directory and run the following command:
