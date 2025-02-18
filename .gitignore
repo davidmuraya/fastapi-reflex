@@ -1,10 +1,11 @@
 
 # Reflex
-
 .web/
 .states/
 *.py[cod]
 assets/external/
+
+# These are generated when you run reflex run
 app/frontend/customer_app/.gitignore
 app/frontend/customer_app/requirements.txt
 
