@@ -5,6 +5,8 @@
 .states/
 *.py[cod]
 assets/external/
+app/frontend/customer_app/.gitignore
+app/frontend/customer_app/requirements.txt
 
 
 # Python
