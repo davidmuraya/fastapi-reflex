@@ -1,3 +1,4 @@
 reflex
 fastapi
 uvicorn
+jinja2
