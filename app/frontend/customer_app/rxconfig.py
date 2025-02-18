@@ -16,6 +16,7 @@ config = rx.Config(
     app_name="customer_data",
     show_built_with_reflex=False,
     cors_allowed_origins=dev_origins,
+    telemetry_enabled=False,
     backend_port=8000,
     frontend_port=3000,
 )
