@@ -12,6 +12,9 @@ def form_field(
     on_change: rx.EventHandler = None,
     on_blur: rx.EventHandler = None,
 ) -> rx.Component:
+    """
+    an icon box above the input field
+    """
     return rx.form.field(
         rx.flex(
             rx.hstack(
