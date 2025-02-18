@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
@@ -6,6 +7,13 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from app.backend.api.routes.api import router as api_router
 from app.backend.database.utils import initialize_database
 from app.backend.middleware.log_middleware import log_and_track_request_process_time
+
+origins = [
+    "https://demo.bima-mo.com",
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:8000",
+]
 
 # Create a FastAPI application instance.
 # The 'on_startup' parameter ensures that 'initialize_database' is called when the app starts.
@@ -45,3 +53,12 @@ app.mount(
 
 # Add middleware to the application to add process time header to responses:
 app.add_middleware(BaseHTTPMiddleware, dispatch=log_and_track_request_process_time)
+
+# CORS (Cross-Origin Resource Sharing)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
