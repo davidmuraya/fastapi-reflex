@@ -6,10 +6,11 @@ import httpx
 import reflex as rx
 from sqlmodel import select
 
+from ..config import settings
 from .base import State
 from .models import User
 
-BASE_URL = "http://localhost:5000/api"
+BASE_URL = f"{settings.fastapi_host}/api"
 
 
 class AuthState(State):
