@@ -4,8 +4,10 @@ from typing import Optional, Union
 import httpx
 import reflex as rx
 
+from ..config import settings
+
 # Base URL for the FastAPI backend.
-BASE_URL = "http://localhost:5000/api"
+BASE_URL = f"{settings.fastapi_host}/api"
 
 
 def _get_percentage_change(
