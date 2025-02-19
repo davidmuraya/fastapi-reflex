@@ -7,6 +7,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from app.backend.api.routes.api import router as api_router
 from app.backend.database.utils import initialize_database
 from app.backend.middleware.log_middleware import log_and_track_request_process_time
+from app.backend.middleware.security_headers import add_security_headers
 
 origins = [
     "https://demo.bima-mo.com",
@@ -50,6 +51,10 @@ app.mount(
     SPAStaticFiles(directory="app/frontend/customer_app/.web/_static/", html=True),
     name="_next",
 )
+
+# Add middleware to the application to add security headers to responses:
+app.add_middleware(BaseHTTPMiddleware, dispatch=add_security_headers)
+
 
 # Add middleware to the application to add process time header to responses:
 app.add_middleware(BaseHTTPMiddleware, dispatch=log_and_track_request_process_time)
