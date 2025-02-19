@@ -5,10 +5,11 @@ Login Page
 import reflex as rx
 
 from ..components.input import input
+from ..config import settings
 from ..state.auth import AuthState
 from ..views.navbar import navbar
 
-BASE_URL = "http://localhost:5000/api"
+BASE_URL = f"{settings.fastapi_host}/api"
 
 
 def login_form() -> rx.Component:
