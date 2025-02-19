@@ -27,3 +27,6 @@ gunicorn>=20.1.0
 
 # python package for asyncio:
 uvloop>=0.15.2
+
+# env settings
+pydantic-settings
