@@ -78,6 +78,7 @@ class AuthState(State):
             self.user = user
             return rx.redirect("/dashboard")
         else:
+            print(f"Error occured {response.text=}")
             error_message = response.json().get(
                 "detail", "Unknown error occurred. Please try again."
             )
