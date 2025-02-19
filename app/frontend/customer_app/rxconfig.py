@@ -21,6 +21,6 @@ config = rx.Config(
     backend_host="127.0.0.1",
     gunicorn_worker_class="uvicorn.workers.UvicornH11Worker",
     gunicorn_workers=4,  # Set number of worker processes
-    api_url="http://127.0.0.1:8001",
+    # api_url="http://127.0.0.1:8001",
     is_reflex_cloud=False,
 )
