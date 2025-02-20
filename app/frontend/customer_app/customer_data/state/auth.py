@@ -20,9 +20,6 @@ class AuthState(State):
     password: str
     confirm_password: str
 
-    # Cookie to store authentication status
-    access_token: str = rx.Cookie(name="access_token", same_site="strict")
-
     @rx.var(cache=True)
     def invalid_email(self) -> bool:
         email = self.email.strip()

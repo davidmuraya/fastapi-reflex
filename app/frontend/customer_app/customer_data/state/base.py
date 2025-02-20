@@ -12,6 +12,9 @@ class State(rx.State):
 
     user: Optional[User] = None
 
+    # Cookie to store authentication status
+    access_token: str = rx.Cookie(name="access_token", same_site="strict")
+
     def logout(self):
         """Log out a user."""
         self.reset()
