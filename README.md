@@ -100,6 +100,78 @@ This is what the fastapi app is serving.
 To learn more about Reflex CLI, visit the [Reflex CLI](https://reflex.dev/docs/api-reference/cli/) page.
 
 
+# Production Setup
+
+You will need to set up 2 applications/services:
+1. A fastapi that is available to the public.
+2. A backend service by reflex that is only called by the frontend fastapi application.
+The fastapi calls it via wss://xxx.xxxx.xxx, and is the request is forwarded to http://127.0.0.1
+This service maintains the state of the application. This is a reflex backend.
+
+## Creating the FastAPI Application
+Create this as you would like. In my example, I have called the service fastapi-reflex. I am using a socket.
+
+Under /etc/systemd/system create the service file:
+
+```bash
+sudo nano /etc/systemd/system/fastapi-reflex.service
+```
+
+
+```bash
+
+
+[Unit]
+Description=Gunicorn instance to serve FastAPI Reflex
+After=network.target
+
+[Service]
+User=username
+Group=www-data
+WorkingDirectory=/usr/share/nginx/fastapi-reflex
+Environment="PATH=/usr/share/nginx/fastapi-reflex/venv/bin"
+ExecStart=/usr/share/nginx/fastapi-reflex/venv/bin/gunicorn -w 4 -k uvicorn.workers.UvicornWorker app.backend.main:app -b unix:/var/sockets/fastapi-reflex/fastapi-reflex.sock -m 007 -t 5400 --max-requests 1000 --max-requests-jitter 50
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+
+```
+
+## Creating the Reflex Backend Service
+
+Under /etc/systemd/system create the service file:
+
+```bash
+sudo nano /etc/systemd/system/reflex-backend.service
+```
+
+Copy/Adjust the following code into the file:
+**Note:** Set the desired username and Group below.
+
+```bash
+[Unit]
+Description=Gunicorn instance to serve Reflex Backend Service
+After=network.target
+
+[Service]
+User=username
+Group=www-data
+WorkingDirectory=/usr/share/nginx/fastapi-reflex/app/frontend/customer_app
+Environment="PATH=/usr/share/nginx/fastapi-reflex/venv/bin"
+ExecStart=/usr/share/nginx/fastapi-reflex/venv/bin/reflex run --env prod --backend-only
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+
+
 ## Automated Deployment in a Production environment
 You will need to have a git repository, initialized with a remote repository.
 
