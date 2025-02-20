@@ -8,7 +8,7 @@ git fetch --all
 git reset --hard origin/main
 
 # Activate the virtual environment
-source  . venv/bin/activate
+. venv/bin/activate
 
 # Install the requirements
 pip install -r requirements.txt
