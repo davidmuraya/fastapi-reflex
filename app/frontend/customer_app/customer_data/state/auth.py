@@ -22,7 +22,7 @@ class AuthState(State):
     otp: str
 
     # Cookie to store authentication status
-    auth_token: str = rx.Cookie(name="auth_token", max_age=86400, same_site="strict")
+    access_token: str = rx.Cookie(name="auth_token", same_site="strict")
 
     @rx.var(cache=True)
     def invalid_email(self) -> bool:
@@ -81,7 +81,7 @@ class AuthState(State):
             self.user = user
 
             # Set the auth cookie - this will automatically handle browser storage
-            self.auth_token = f"Bearer user_{self.email}_some_token"
+            self.access_token = f"Bearer user_{self.email}_some_token"
 
             return rx.redirect("/dashboard")
         else:

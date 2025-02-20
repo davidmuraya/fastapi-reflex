@@ -15,7 +15,7 @@ class State(rx.State):
     def logout(self):
         """Log out a user."""
         self.reset()
-        rx.remove_cookie("auth_token")
+        rx.remove_cookie("access_token")
         return rx.redirect("/")
 
     def check_login(self):
