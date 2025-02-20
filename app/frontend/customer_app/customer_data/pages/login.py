@@ -58,14 +58,6 @@ def login_form() -> rx.Component:
                         name="password",
                         on_blur=AuthState.set_password,
                     ),
-                    input(
-                        label="OTP",
-                        icon="key-round",
-                        placeholder="OTP",
-                        type="text",
-                        name="otp",
-                        on_blur=AuthState.set_otp,
-                    ),
                     rx.button("Sign in", size="3", width="100%", type="submit"),
                     # Conditionally render the error messages if the email is invalid.
                     rx.cond(

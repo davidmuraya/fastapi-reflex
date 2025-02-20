@@ -19,7 +19,6 @@ class AuthState(State):
     email: str
     password: str
     confirm_password: str
-    otp: str
 
     # Cookie to store authentication status
     access_token: str = rx.Cookie(name="access_token", same_site="strict")
@@ -54,10 +53,6 @@ class AuthState(State):
         # If password is empty, return an error toast.
         if not self.password.strip():
             return rx.toast.error("Password cannot be empty", close_button=True)
-
-        # If OTP is empty, return an error toast.
-        if not self.otp.strip():
-            return rx.toast.error("OTP cannot be empty", close_button=True)
 
         # Make the API request
         data = {"email": self.email, "password": self.password}
