@@ -31,7 +31,7 @@ reflex run
 ```
 
 This will start the Reflex app. The frontend app will be available at http://localhost:3000.
-The reflex backend app will be start in http://localhost:8000. This backend is used to serve the state of the Reflex app.
+The reflex backend app will be start in http://localhost:8001. This backend is used to serve the state of the Reflex app.
 
 
 4. To start the fastapi backend app, navigate to the app directory and run the following command:
