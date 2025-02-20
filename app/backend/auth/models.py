@@ -39,5 +39,9 @@ class TokenData(BaseModel):
     email: Optional[str] = None
 
 
-class UserInDB(User):
-    hashed_password: str
+# Model for updating a user; all fields are optional
+class UserUpdate(SQLModel):
+    name: Optional[str] = None
+    email: Optional[str] = None
+    password: Optional[str] = None
+    active: Optional[bool] = None
