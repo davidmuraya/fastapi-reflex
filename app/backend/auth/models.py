@@ -1,6 +1,6 @@
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from sqlmodel import Field, SQLModel
 
 
@@ -8,20 +8,20 @@ from sqlmodel import Field, SQLModel
 class User(SQLModel, table=True):
     id: int = Field(primary_key=True)
     name: str
-    email: str
+    email: EmailStr
     password: str
     active: bool = True
 
 
 class UserLoginRequest(BaseModel):
-    email: str
+    email: EmailStr
     password: str
 
 
 class UserLoginResponse(BaseModel):
     id: int
     name: str
-    email: str
+    email: EmailStr
     access_token: str
 
 
@@ -36,12 +36,12 @@ class Token(BaseModel):
 
 
 class TokenData(BaseModel):
-    email: Optional[str] = None
+    email: EmailStr
 
 
 # Model for updating a user; all fields are optional
 class UserUpdate(SQLModel):
     name: Optional[str] = None
-    email: Optional[str] = None
+    email: EmailStr | None = Field(default=None)
     password: Optional[str] = None
     active: Optional[bool] = None
