@@ -7,6 +7,7 @@ import reflex as rx
 from .pages.contact import contact_page
 from .pages.dashboard import dashboard_page
 from .pages.login import login_page
+from .pages.sign_up import sign_up_page
 
 app = rx.App(
     theme=rx.theme(
