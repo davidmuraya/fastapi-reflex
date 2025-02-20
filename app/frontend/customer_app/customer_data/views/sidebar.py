@@ -81,7 +81,7 @@ def sidebar() -> rx.Component:
                         padding="0.65rem",
                     ),
                     rx.text(
-                        "Bima-MO",
+                        "Customer App",
                         size="4",
                         weight="bold",
                     ),
