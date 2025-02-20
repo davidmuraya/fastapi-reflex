@@ -10,6 +10,10 @@ from .pages.login import login_page
 
 app = rx.App(
     theme=rx.theme(
-        appearance="light", has_background=True, radius="large", accent_color="grass"
+        appearance="light",
+        has_background=True,
+        radius="large",
+        accent_color="grass",
+        scaling="90%",
     ),
 )
