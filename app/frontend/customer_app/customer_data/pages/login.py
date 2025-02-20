@@ -71,7 +71,7 @@ def login_form() -> rx.Component:
                     ),
                     rx.center(
                         rx.text("New here?", size="3"),
-                        rx.link("Sign up", href="#", size="3"),
+                        rx.link("Sign up", href="/sign-up", size="3"),
                         opacity="0.8",
                         spacing="2",
                         direction="row",
