@@ -20,6 +20,11 @@ origins = [
     "http://localhost:8001",
 ]
 
+api_description = """
+FastAPI + Reflex Application
+
+"""
+
 # Create a FastAPI application instance.
 # The 'on_startup' parameter ensures that 'initialize_database' is called when the app starts.
 app = FastAPI(
@@ -27,12 +32,44 @@ app = FastAPI(
     redoc_url=None,
     openapi_url=None,
     docs_url=None,
+    title="Customer Data App",
+    description=api_description,
+    version="1.0.0",
 )
 
 
 # Include the API router in the application.
 # This will mount all API endpoints defined in 'api_router'.
 app.include_router(api_router)
+
+
+@app.get("/openapi.json", include_in_schema=False)
+async def custom_openapi_json(current_user: User = Depends(get_current_app_user)):
+    """
+    Blocks access to the OpenAPI JSON endpoint for authenticated users by redirecting them to the sign-in page.
+
+    Args:
+        current_user (User, optional): The current authenticated user. Defaults to Depends(get_current_app_user).
+
+    Returns:
+        RedirectResponse: Redirects authenticated users to the sign-in page. Returns the OpenAPI JSON data for
+        non-authenticated users.
+
+    Note:
+        This function prevents authenticated users from accessing the OpenAPI JSON endpoint, enhancing security
+        by restricting access to API documentation for unauthorized users.
+    """
+
+    if not current_user:
+        response = RedirectResponse("/", status_code=status.HTTP_302_FOUND)
+        return response
+
+    return get_openapi(
+        title=app.title,
+        version=app.version,
+        description=app.description,
+        routes=app.routes,
+    )
 
 
 # Define a subclass of StaticFiles to create a custom static file handler
@@ -80,32 +117,3 @@ app.add_middleware(
 
 # Add GZipMiddleware as the last middleware
 app.add_middleware(GZipMiddleware, minimum_size=1000)
-
-
-@app.get("/openapi.json", include_in_schema=False)
-async def custom_openapi_json(current_user: User = Depends(get_current_app_user)):
-    """
-    Blocks access to the OpenAPI JSON endpoint for authenticated users by redirecting them to the sign-in page.
-
-    Args:
-        current_user (User, optional): The current authenticated user. Defaults to Depends(get_current_app_user).
-
-    Returns:
-        RedirectResponse: Redirects authenticated users to the sign-in page. Returns the OpenAPI JSON data for
-        non-authenticated users.
-
-    Note:
-        This function prevents authenticated users from accessing the OpenAPI JSON endpoint, enhancing security
-        by restricting access to API documentation for unauthorized users.
-    """
-
-    if not current_user:
-        response = RedirectResponse("/", status_code=status.HTTP_302_FOUND)
-        return response
-
-    return get_openapi(
-        title=app.title,
-        version=app.version,
-        description=app.description,
-        routes=app.routes,
-    )
