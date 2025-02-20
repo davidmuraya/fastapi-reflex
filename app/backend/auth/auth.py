@@ -125,12 +125,22 @@ def authenticate_user(email: str, password: str):
         headers={"WWW-Authenticate": "Bearer"},
     )
 
+    inactive_user_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Inactive User. User Account has not been activated.",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
     # get the user details:
     user = get_user(email=email)
 
     # check if the user exists:
     if not user:
         raise username_not_found_exception
+
+    # check if the user is active:
+    if not user.active:
+        raise inactive_user_exception
 
     # check if the password is correct:
     if not verify_password(password, user.password):
