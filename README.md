@@ -71,7 +71,7 @@ To learn more about Reflex CLI, visit the [Reflex CLI](https://reflex.dev/docs/a
 You will need to set up 2 applications/services:
 1. A fastapi that is available to the public.
 2. A backend service by reflex that is only called by the frontend fastapi application.
-The fastapi calls it via wss://xxx.xxxx.xxx, and is the request is forwarded to http://127.0.0.1
+The fastapi calls it via wss://xxx.xxxx.xxx, and is the request is forwarded to http://127.0.0.1:8001
 This service maintains the state of the application. This is a reflex backend.
 
 ## Creating the FastAPI Application
