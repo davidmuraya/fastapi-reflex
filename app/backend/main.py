@@ -1,11 +1,15 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.openapi.utils import get_openapi
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.middleware.gzip import GZipMiddleware
 
 from app.backend.api.routes.api import router as api_router
+from app.backend.auth.auth import get_current_app_user
+from app.backend.auth.models import User
 from app.backend.database.utils import initialize_database
 from app.backend.middleware.log_middleware import log_and_track_request_process_time
 from app.backend.middleware.security_headers import add_security_headers
@@ -18,7 +22,12 @@ origins = [
 
 # Create a FastAPI application instance.
 # The 'on_startup' parameter ensures that 'initialize_database' is called when the app starts.
-app = FastAPI(on_startup=[initialize_database])
+app = FastAPI(
+    on_startup=[initialize_database],
+    redoc_url=None,
+    openapi_url=None,
+    docs_url=None,
+)
 
 
 # Include the API router in the application.
@@ -71,3 +80,32 @@ app.add_middleware(
 
 # Add GZipMiddleware as the last middleware
 app.add_middleware(GZipMiddleware, minimum_size=1000)
+
+
+@app.get("/openapi.json", include_in_schema=False)
+async def custom_openapi_json(current_user: User = Depends(get_current_app_user)):
+    """
+    Blocks access to the OpenAPI JSON endpoint for authenticated users by redirecting them to the sign-in page.
+
+    Args:
+        current_user (User, optional): The current authenticated user. Defaults to Depends(get_current_app_user).
+
+    Returns:
+        RedirectResponse: Redirects authenticated users to the sign-in page. Returns the OpenAPI JSON data for
+        non-authenticated users.
+
+    Note:
+        This function prevents authenticated users from accessing the OpenAPI JSON endpoint, enhancing security
+        by restricting access to API documentation for unauthorized users.
+    """
+
+    if not current_user:
+        response = RedirectResponse("/", status_code=status.HTTP_302_FOUND)
+        return response
+
+    return get_openapi(
+        title=app.title,
+        version=app.version,
+        description=app.description,
+        routes=app.routes,
+    )
