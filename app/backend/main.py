@@ -11,10 +11,9 @@ from app.backend.middleware.log_middleware import log_and_track_request_process_
 from app.backend.middleware.security_headers import add_security_headers
 
 origins = [
-    "https://demo.bima-mo.com",
     "http://localhost",
     "http://localhost:3000",
-    "http://localhost:8000",
+    "http://localhost:8001",
 ]
 
 # Create a FastAPI application instance.
