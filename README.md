@@ -1,13 +1,13 @@
 ## FastAPI + Reflex.
 
-This is an experiment to attempt to use Reflex to develop a frontend application for a FastAPI app.
-This may be useful for if you already have a FastAPI application and want to use a JS framework for parts of your as the frontend.
+This project explores using Reflex to build a frontend for a FastAPI application. If you already have a FastAPI backend, Reflex can help develop parts of your frontend efficiently.
 
-The frontend application is a simple app to manage customer data. It is based in the [customer_data](https://cijob.reflex.run/) example from the Reflex repo. I have moved the database functionality from the reflex app to FastAPI.
+
+The application is a simple app to manage customer data. It is based in the [customer_data](https://cijob.reflex.run/) example from the Reflex. The database functionality has been moved from Reflex to FastAPI. The Reflex frontend therefore sends http requests to the fastapi backend.
 
 ## How to develop the app on your local machine:
 
-This app is a FastAPI app that uses Reflex as the frontend framework. You will need to run both the FastAPI backend and the Reflex App.
+To develop the app, you will need to run both the FastAPI backend and the Reflex App.
 
 1. Install the required dependencies:
 
@@ -34,7 +34,7 @@ This will start the Reflex app. The frontend app will be available at http://loc
 The reflex backend app will be start in http://localhost:8001. This backend is used to serve the state of the Reflex app.
 
 
-4. To start the fastapi backend app, navigate to the app directory and run the following command:
+4. To start the fastapi backend app, navigate to the root directory and run the following command:
 
 ```bash
 uvicorn app.backend.main:app --reload --port 5000
@@ -54,10 +54,11 @@ This will start the fastapi backend app. The backend app will be available at ht
 ```
 
 The frontend is a compiled NextJS app, which can be deployed to a static hosting service like Github Pages or Vercel.
-This is what the fastapi app is serving.
+
+These are the static files that will be served by the fastapi app.
 
 
-7. To run the backend state for the frontend app, navigate to the app/frontend directory and run the following command:
+7. To run the backend state for the frontend reflex app, navigate to the app/frontend directory and run the following command:
 ```bash
  reflex run --backend-only
 ```
