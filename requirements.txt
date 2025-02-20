@@ -43,3 +43,6 @@ python-multipart>=0.0.5
 
 # python package for hashing:
 bcrypt>=3.1.7
+
+# python package for email validation:
+pydantic[email]
