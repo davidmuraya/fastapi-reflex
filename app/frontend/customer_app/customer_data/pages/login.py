@@ -31,7 +31,7 @@ def login_form() -> rx.Component:
                                 weight="bold",
                             ),
                             rx.text(
-                                "Fill the form to login to Bima-MO",
+                                "Fill the form to login",
                                 size="2",
                             ),
                             spacing="1",
