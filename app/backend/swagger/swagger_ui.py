@@ -15,12 +15,13 @@ async def custom_swagger_ui_html(
 ):
     # check if the user is authenticated, and redirect to the sign-in page if not:
     if not current_user:
-        response = RedirectResponse("/", status_code=status.HTTP_302_FOUND)
+        response = RedirectResponse(
+            "/?referer=/api/docs/", status_code=status.HTTP_302_FOUND
+        )
         return response
 
     return get_swagger_ui_html(
         openapi_url="/openapi.json",
         title="Customer App API",
         swagger_favicon_url="/static/favicon.ico",
-        swagger_ui_parameters={"defaultModelsExpandDepth": -1},
     )
