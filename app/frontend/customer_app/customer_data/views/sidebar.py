@@ -64,6 +64,7 @@ def sidebar_items() -> rx.Component:
         sidebar_item("Projects", "square-library", "/#"),
         sidebar_item("Analytics", "bar-chart-4", "/#"),
         sidebar_item("Messages", "mail", "/contact"),
+        sidebar_item("API Documentation", "book-open", "/api/docs"),
         spacing="1",
         width="100%",
     )
