@@ -30,3 +30,16 @@ uvloop>=0.15.2
 
 # env settings
 pydantic-settings
+
+
+# python package for http tools:
+httptools>=0.1.1
+# python package for JWT:
+python-jose>=3.3.0
+# python package for password hashing:
+passlib>=1.7.4
+# python package for parsing multipart data:
+python-multipart>=0.0.5
+
+# python package for hashing:
+bcrypt>=3.1.7
