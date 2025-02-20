@@ -61,7 +61,9 @@ async def custom_openapi_json(current_user: User = Depends(get_current_app_user)
     """
 
     if not current_user:
-        response = RedirectResponse("/", status_code=status.HTTP_302_FOUND)
+        response = RedirectResponse(
+            "/?referer=/openapi.json", status_code=status.HTTP_302_FOUND
+        )
         return response
 
     return get_openapi(
