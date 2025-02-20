@@ -9,7 +9,7 @@ router = APIRouter(prefix="/api")
 
 
 # Apply the new authentication dependency to the route serving the Swagger UI:
-@router.get("/docs", include_in_schema=False)
+@router.get("/docs/", include_in_schema=False)
 async def custom_swagger_ui_html(
     request: Request, current_user: User = Depends(get_current_app_user)
 ):
