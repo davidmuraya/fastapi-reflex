@@ -53,7 +53,7 @@ class CustomerUpdate(SQLModel):
 
 
 # API endpoints
-@router.get("/customers", response_model=List[Customer])
+@router.get("/customers", response_model=List[Customer], tags=["Customer"])
 async def get_customers(
     session: Session = Depends(get_session),
     search: Optional[str] = None,
@@ -84,7 +84,7 @@ async def get_customers(
     return session.exec(query).all()
 
 
-@router.get("/customers/{customer_id}", response_model=Customer)
+@router.get("/customers/{customer_id}", response_model=Customer, tags=["Customer"])
 def get_customer(customer_id: int, session: Session = Depends(get_session)):
     customer = session.get(Customer, customer_id)
     if not customer:
@@ -92,7 +92,7 @@ def get_customer(customer_id: int, session: Session = Depends(get_session)):
     return customer
 
 
-@router.post("/customers", response_model=List[Customer])
+@router.post("/customers", response_model=List[Customer], tags=["Customer"])
 def add_customers(customers: List[Customer], session: Session = Depends(get_session)):
     # First, verify that none of the customer IDs already exist.
     for customer in customers:
@@ -115,7 +115,7 @@ def add_customers(customers: List[Customer], session: Session = Depends(get_sess
     return customers
 
 
-@router.delete("/customers/{customer_id}", response_model=dict)
+@router.delete("/customers/{customer_id}", response_model=dict, tags=["Customer"])
 def delete_customer(customer_id: int, session: Session = Depends(get_session)):
     customer = session.get(Customer, customer_id)
     if not customer:
@@ -125,7 +125,7 @@ def delete_customer(customer_id: int, session: Session = Depends(get_session)):
     return {"message": "Customer deleted successfully"}
 
 
-@router.put("/customers/{customer_id}", response_model=Customer)
+@router.put("/customers/{customer_id}", response_model=Customer, tags=["Customer"])
 def update_customer(
     customer_id: int,
     customer_update: CustomerUpdate,
