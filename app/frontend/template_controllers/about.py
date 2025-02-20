@@ -11,7 +11,7 @@ router = APIRouter()
 templates = Jinja2Templates(directory="app/frontend/templates")
 
 
-@router.get("/about", response_class=HTMLResponse, include_in_schema=False)
+@router.get("/about/", response_class=HTMLResponse, include_in_schema=False)
 async def not_found_page_resource(request: Request):
     return templates.TemplateResponse(
         "about.html",
