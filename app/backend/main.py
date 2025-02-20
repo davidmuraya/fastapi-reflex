@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.gzip import GZipMiddleware
 
 from app.backend.api.routes.api import router as api_router
 from app.backend.database.utils import initialize_database
@@ -67,3 +68,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# Add GZipMiddleware as the last middleware
+app.add_middleware(GZipMiddleware, minimum_size=1000)
