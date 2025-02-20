@@ -158,3 +158,10 @@ chmod +x deploy.sh; ./deploy.sh
 ```
 
 This will give the deploy.sh execution persmissions, update the repository, activate the virtual environment, install the requirements, export the frontend app, restart the services, and deactivate the virtual environment.
+
+## Username and Password
+
+The default username and password for the login page is:
+
+- Username: `test@test.com`
+- Password: `test@test.com`
