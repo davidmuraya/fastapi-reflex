@@ -5,6 +5,9 @@ This project explores using Reflex to build a frontend for a FastAPI application
 
 The application is a simple app to manage customer data. It is based in the [customer_data](https://cijob.reflex.run/) example from the Reflex. The database functionality has been moved from Reflex to FastAPI. The Reflex frontend therefore sends http requests to the fastapi backend.
 
+![image](https://github.com/user-attachments/assets/43be6517-c2df-45cf-87d3-867e2d61bd14)
+
+
 ## How to develop the app on your local machine:
 
 To develop the app, you will need to run both the FastAPI backend and the Reflex App.
