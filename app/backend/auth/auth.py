@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from urllib.parse import unquote
 
 import jose
 from fastapi import Cookie, Depends, HTTPException, status
@@ -30,10 +31,18 @@ def get_current_app_user(access_token: str = Cookie(None)):
     if not access_token:
         return None
     else:
+        # URL-decode the access token to convert any '%20' back to a space.
+        access_token = unquote(access_token)
+
+        # Split the access token into the scheme and the payload.
         scheme, _, param = access_token.partition(" ")
         try:
             payload = jwt.decode(param, APP_SECRET_KEY, algorithms=ALGORITHM)
+
+            #  get the email from the payload
             email = payload.get("sub")
+
+            #  get the user from the database
             user = get_user(email=email)
         except jose.ExpiredSignatureError as e:
             print(e)
