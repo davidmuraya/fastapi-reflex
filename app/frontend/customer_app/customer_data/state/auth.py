@@ -10,7 +10,7 @@ from ..config import settings
 from .base import State
 from .models import User
 
-BASE_URL = f"{settings.fastapi_host}/api"
+BASE_URL = f"{settings.fastapi_host}/api/v1"
 
 
 class AuthState(State):
@@ -22,7 +22,7 @@ class AuthState(State):
     otp: str
 
     # Cookie to store authentication status
-    access_token: str = rx.Cookie(name="auth_token", same_site="strict")
+    access_token: str = rx.Cookie(name="access_token", same_site="strict")
 
     @rx.var(cache=True)
     def invalid_email(self) -> bool:
@@ -73,6 +73,8 @@ class AuthState(State):
         # check if the response is a 200 OK
         if response.status_code == 200:
             user_data = response.json()
+
+            # Create the user object:
             user = User(
                 id=user_data.get("id"),
                 email=user_data.get("email"),
@@ -80,8 +82,11 @@ class AuthState(State):
             )
             self.user = user
 
+            # Get the access token:
+            access_token = user_data.get("access_token")
+
             # Set the auth cookie - this will automatically handle browser storage
-            self.access_token = f"Bearer user_{self.email}_some_token"
+            self.access_token = f"Bearer {access_token}"
 
             return rx.redirect("/dashboard")
         else:
