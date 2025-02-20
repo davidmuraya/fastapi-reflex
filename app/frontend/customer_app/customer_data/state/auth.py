@@ -22,7 +22,7 @@ class AuthState(State):
     otp: str
 
     # Cookie to store authentication status
-    auth_token: str = rx.Cookie(name="auth_token", max_age=3600, same_site="strict")
+    auth_token: str = rx.Cookie(name="auth_token", max_age=86400, same_site="strict")
 
     @rx.var(cache=True)
     def invalid_email(self) -> bool:
